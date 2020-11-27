@@ -4,12 +4,43 @@ import "./styles/styles.scss"
 import Header from "./components/Header"
 import NoteForm from "./components/NoteForm"
 import Note from "./components/Note"
+import db from "./firebase/firebase"
+import moment from "moment"
 
 export class FieldNotesApp extends Component {
   constructor(props) {
     super(props)
 
     this.noteFormRef = createRef()
+    this.state = {
+      notes: [],
+    }
+    this.setState = this.setState.bind(this)
+  }
+
+  componentWillMount() {
+    const downloadNotes = () => {
+      db.collection("notes")
+        .get()
+        .then((snapshot) => {
+          let notes = []
+          snapshot.forEach((noteSnap) => {
+            // convert TIMESTAMP to Date
+            let data = noteSnap.data()
+            data.date = data.date.toDate()
+            notes.push(data)
+          })
+
+          this.setState(() => ({ notes }))
+        })
+        .then(() => {
+          console.log("missão cumprida pai")
+        })
+        .catch((e) => console.log(e))
+    }
+
+    downloadNotes()
+    console.log("in will mount")
   }
 
   showNoteForm = () => {
@@ -25,9 +56,9 @@ export class FieldNotesApp extends Component {
     return (
       <div>
         <Header />
-        <div className="container main-content">
+        <div className="container main-content border rounded">
           <div>Please, start taking notes!</div>
-          <div className="add-button d-flex">
+          <div className="add-button d-flex m-1">
             <button
               className="btn btn-success p-3 flex-fill"
               onClick={this.showNoteForm}
@@ -35,12 +66,13 @@ export class FieldNotesApp extends Component {
               ADD
             </button>
           </div>
-          {/* <NoteForm /> */}
+          <NoteForm setState={this.setState} />
           <div className="notes-list">
-            <div className="note m-1 showborder">nota 1</div>
-            <div className="note m-1 showborder">nota 2</div>
-            <Note />
-            <Note />
+            {this.state.notes.map((noteData) => (
+              <Note data={noteData} />
+            ))}
+            {/* <Note />
+            <Note /> */}
           </div>
         </div>
         <footer className="footer text-center bg-success text-white p-3">

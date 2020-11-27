@@ -1,13 +1,49 @@
 import React, { useState } from "react"
 import "react-datepicker/dist/react-datepicker.css"
 import DatePicker from "react-datepicker"
+import db from "../firebase/firebase"
 
 export const NoteForm = (props) => {
   const [startDate, setStartDate] = useState(new Date())
+  const [nameInput, setNameInput] = useState("")
+  const [descriptionInput, setDescriptionInput] = useState("")
+  // const [dateInput, setNameInput] = useState()
+
+  const onInputChange = (e) => {
+    setNameInput(e.target.value)
+  }
+
+  const onDescriptionInputChange = (e) => {
+    setDescriptionInput(e.target.value)
+  }
+
+  const onFormSubmit = (e) => {
+    e.preventDefault()
+    const note = {
+      name: nameInput,
+      description: descriptionInput,
+      date: startDate,
+    }
+
+    db.collection("notes")
+      .add(note)
+      .then(() => {
+        console.log("addeed :)", note)
+        props.setState((prevState) => ({
+          notes: [note].concat(prevState.notes),
+        }))
+        setNameInput("")
+        setDescriptionInput("")
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+  }
 
   return (
     <div className="note-form border border-secondary rounded">
-      <form className="">
+      {`${nameInput}, ${descriptionInput}, ${startDate}`}
+      <form className="" onSubmit={onFormSubmit}>
         <div className="row">
           {/* <div className="showborder col-sm-12 col-md-8">oi</div>
           <div className="showborder col-sm-12 col-md-4">oi</div> */}
@@ -21,6 +57,8 @@ export const NoteForm = (props) => {
                 className="form-control"
                 type="text"
                 placeholder="Enter Name"
+                value={nameInput}
+                onChange={onInputChange}
               ></input>
             </div>
             <div className="form-group">
@@ -32,6 +70,8 @@ export const NoteForm = (props) => {
                 className="form-control"
                 placeholder="Enter Description"
                 rows="3"
+                onChange={onDescriptionInputChange}
+                value={descriptionInput}
               ></textarea>
             </div>
           </div>
@@ -47,7 +87,10 @@ export const NoteForm = (props) => {
                 />
               </div>
               <div className="col align-self-end d-flex align-items-center">
-                <button className="btn btn-outline-success btn-lg rounded-pill btn-block">
+                <button
+                  type="submit"
+                  className="btn btn-outline-success btn-lg rounded-pill btn-block"
+                >
                   Save
                 </button>
               </div>
