@@ -1,16 +1,29 @@
 import React from "react"
 import db from "../firebase/firebase"
+import NoteForm from "./NoteForm"
 
-export const Note = ({ data: { description, name: author, date } }) => {
-  const addObjectToFirestore = () => {
-    db.collection("testeew")
-      .add({ oi: "baby" })
+export const Note = ({
+  data: { description, author, date, noteId },
+  setState,
+}) => {
+  const removeNote = () => {
+    console.log(noteId, "oi, td bem?")
+    db.collection("notes")
+      .doc(noteId)
+      .delete()
       .then(() => {
-        console.log("adicionado")
+        console.log("note was successfully deleted")
+        setState((prevState) => {
+          // let newNotes = prevState.notes.filter(
+          //   (note) => note.noteId !== noteId
+          // )
+          // console.log(newNotes)
+          return {
+            notes: prevState.notes.filter((note) => note.noteId !== noteId),
+          }
+        })
       })
-      .catch((error) => {
-        console.log("errão", error)
-      })
+      .catch((error) => console.log(error))
   }
 
   return (
@@ -35,21 +48,22 @@ export const Note = ({ data: { description, name: author, date } }) => {
               </div>
             </div>
             <div className="col px-1">
-              <button
-                className="btn btn-outline-success btn-block h-100"
-                onClick={addObjectToFirestore}
-              >
+              <button className="btn btn-outline-success btn-block h-100">
                 Edit
               </button>
             </div>
             <div className="col px-1">
-              <button className="btn btn-outline-danger btn-block h-100">
+              <button
+                className="btn btn-outline-danger btn-block h-100"
+                onClick={removeNote}
+              >
                 Remove
               </button>
             </div>
           </div>
         </div>
       </div>
+      <NoteForm setState={setState} formData={{ description, author, date }} />
     </div>
   )
 }

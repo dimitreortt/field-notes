@@ -1,13 +1,24 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import "react-datepicker/dist/react-datepicker.css"
 import DatePicker from "react-datepicker"
 import db from "../firebase/firebase"
 
 export const NoteForm = (props) => {
-  const [startDate, setStartDate] = useState(new Date())
+  const [dateInput, setDateInput] = useState(new Date())
   const [nameInput, setNameInput] = useState("")
   const [descriptionInput, setDescriptionInput] = useState("")
-  // const [dateInput, setNameInput] = useState()
+
+  useEffect(() => {
+    console.log("ola ;P")
+    console.log(props.formData)
+    if (!!props.formData) {
+      console.log("ola mundo")
+      const { date, author, description } = props.formData
+      setDateInput(date)
+      setNameInput(author)
+      setDescriptionInput(description)
+    }
+  }, [])
 
   const onInputChange = (e) => {
     setNameInput(e.target.value)
@@ -20,15 +31,16 @@ export const NoteForm = (props) => {
   const onFormSubmit = (e) => {
     e.preventDefault()
     const note = {
-      name: nameInput,
+      author: nameInput,
       description: descriptionInput,
-      date: startDate,
+      date: dateInput,
     }
 
     db.collection("notes")
       .add(note)
-      .then(() => {
+      .then((docRef) => {
         console.log("addeed :)", note)
+        note.noteId = docRef.id
         props.setState((prevState) => ({
           notes: [note].concat(prevState.notes),
         }))
@@ -42,7 +54,7 @@ export const NoteForm = (props) => {
 
   return (
     <div className="note-form border border-secondary rounded">
-      {`${nameInput}, ${descriptionInput}, ${startDate}`}
+      {`${nameInput}, ${descriptionInput}, ${dateInput}`}
       <form className="" onSubmit={onFormSubmit}>
         <div className="row">
           {/* <div className="showborder col-sm-12 col-md-8">oi</div>
@@ -80,8 +92,8 @@ export const NoteForm = (props) => {
               <div className="form-group justify-content-center">
                 <label className="d-block">Date</label>
                 <DatePicker
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
+                  selected={dateInput}
+                  onChange={(date) => setDateInput(date)}
                   className="form-control"
                   id="dateInput"
                 />

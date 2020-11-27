@@ -28,6 +28,8 @@ export class FieldNotesApp extends Component {
             // convert TIMESTAMP to Date
             let data = noteSnap.data()
             data.date = data.date.toDate()
+            data.noteId = noteSnap.id
+            console.log(data.noteId)
             notes.push(data)
           })
 
@@ -69,7 +71,7 @@ export class FieldNotesApp extends Component {
           <NoteForm setState={this.setState} />
           <div className="notes-list">
             {this.state.notes.map((noteData) => (
-              <Note data={noteData} />
+              <Note data={noteData} setState={this.setState} />
             ))}
             {/* <Note />
             <Note /> */}
