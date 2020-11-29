@@ -1,24 +1,18 @@
-import React, { createRef, Component } from "react"
+import React, { useEffect, useState } from "react"
 import "bootstrap/dist/css/bootstrap.css"
 import "./styles/styles.scss"
 import Header from "./components/Header"
 import NoteForm from "./components/NoteForm"
 import Note from "./components/Note"
 import db from "./firebase/firebase"
-import moment from "moment"
+import firebase from "firebase"
+import { useHistory } from "react-router-dom"
 
-export class FieldNotesApp extends Component {
-  constructor(props) {
-    super(props)
+export const FieldNotesApp = () => {
+  const [notes, setNotes] = useState([])
+  const history = useHistory()
 
-    this.noteFormRef = createRef()
-    this.state = {
-      notes: [],
-    }
-    this.setState = this.setState.bind(this)
-  }
-
-  componentWillMount() {
+  useEffect(() => {
     const downloadNotes = () => {
       db.collection("notes")
         .get()
@@ -33,7 +27,7 @@ export class FieldNotesApp extends Component {
             notes.push(data)
           })
 
-          this.setState(() => ({ notes }))
+          setNotes(notes)
         })
         .then(() => {
           console.log("missão cumprida pai")
@@ -43,49 +37,59 @@ export class FieldNotesApp extends Component {
 
     downloadNotes()
     console.log("in will mount")
+  }, [])
+
+  const signOut = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(function () {
+        // Sign-out successful.
+        console.log("Sign-out successful.")
+        alert("User has been successfully signed out!")
+        history.push("/login")
+      })
+      .catch((error) => {
+        // An error happened.
+        console.log(error)
+      })
   }
 
-  showNoteForm = () => {
-    // this.noteFormRef.current.style.background = "red"
-    // let e = this.noteFormRef.current
-    // e.style.height = ""
-    // e.scrollIntoView({
-    //   behavior: "smooth",
-    // })
-  }
-
-  render() {
-    return (
-      <div>
-        <Header />
-        <div className="container main-content border rounded">
-          <div>Please, start taking notes!</div>
-          <div className="add-button d-flex m-1">
-            <button
-              className="btn btn-success p-3 flex-fill"
-              onClick={this.showNoteForm}
-            >
-              ADD
-            </button>
-          </div>
-          <NoteForm setState={this.setState} />
-          <div className="notes-list">
-            {this.state.notes.map((noteData) => (
-              <Note data={noteData} setState={this.setState} />
-            ))}
-            {/* <Note />
-            <Note /> */}
-          </div>
+  return (
+    <div>
+      <Header />
+      <div className="container main-content border rounded">
+        <div>Please, start taking notes!</div>
+        <div className="add-button d-flex m-1">
+          <button className="btn btn-success p-3 flex-fill">ADD</button>
         </div>
-        <footer className="footer text-center bg-success text-white p-3">
-          <div>E-mail: dimiortt@gmail.com</div>
-          <div>
-            LinkedIn: https://www.linkedin.com/in/dimitre-ortt-3465bb177/
-          </div>
-        </footer>
+        <NoteForm setNotes={setNotes} notes={notes} />
+        <div className="notes-list">
+          {notes.map((noteData, index) => (
+            <Note
+              key={index}
+              data={noteData}
+              setNotes={setNotes}
+              notes={notes}
+              index={index}
+            />
+          ))}
+        </div>
+        <div className="text-center mt-5 mb-2">
+          <button
+            className="btn btn-warning btn-lg rounded-pill px-5 text-dark"
+            onClick={signOut}
+          >
+            Log Out
+          </button>
+        </div>
       </div>
-    )
-  }
+      <footer className="footer text-center bg-success text-white p-3">
+        <div>E-mail: dimiortt@gmail.com</div>
+        <div>LinkedIn: https://www.linkedin.com/in/dimitre-ortt-3465bb177/</div>
+      </footer>
+    </div>
+  )
 }
 
 export default FieldNotesApp

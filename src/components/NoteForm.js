@@ -28,6 +28,46 @@ export const NoteForm = (props) => {
     setDescriptionInput(e.target.value)
   }
 
+  const addNote = (note) => {
+    db.collection("notes")
+      .add(note)
+      .then((docRef) => {
+        console.log("document successfully created", note)
+        note.noteId = docRef.id
+        // props.setState((prevState) => ({
+        //   notes: [note].concat(prevState.notes),
+        // }))
+        props.setNotes([note].concat(props.notes.concat))
+        setNameInput("")
+        setDescriptionInput("")
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+  }
+
+  const updateNote = (note) => {
+    db.collection("notes")
+      .doc(props.formData.noteId)
+      .update(note)
+      .then(() => {
+        console.log("document successfully updated", note)
+        props.formData.setState((prevState) => {
+          let newNotes = prevState.notes
+          newNotes[props.formData.index] = note
+          return {
+            notes: newNotes,
+          }
+        })
+        setNameInput("")
+        setDescriptionInput("")
+        props.formData.setInEditMode(false)
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+  }
+
   const onFormSubmit = (e) => {
     e.preventDefault()
     const note = {
@@ -35,21 +75,7 @@ export const NoteForm = (props) => {
       description: descriptionInput,
       date: dateInput,
     }
-
-    db.collection("notes")
-      .add(note)
-      .then((docRef) => {
-        console.log("addeed :)", note)
-        note.noteId = docRef.id
-        props.setState((prevState) => ({
-          notes: [note].concat(prevState.notes),
-        }))
-        setNameInput("")
-        setDescriptionInput("")
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+    !!props.formData ? updateNote(note, props.formData.noteId) : addNote(note)
   }
 
   return (
@@ -61,7 +87,7 @@ export const NoteForm = (props) => {
           <div className="showborder col-sm-12 col-md-4">oi</div> */}
           <div className="col-sm-12 col-md-8">
             <div className="form-group">
-              <label for="nameInput" className="ml-1">
+              <label htmlFor="nameInput" className="ml-1">
                 Author Name
               </label>
               <input
@@ -74,7 +100,7 @@ export const NoteForm = (props) => {
               ></input>
             </div>
             <div className="form-group">
-              <label for="descriptionInput" className="ml-1">
+              <label htmlFor="descriptionInput" className="ml-1">
                 Description
               </label>
               <textarea

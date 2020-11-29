@@ -1,13 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import reportWebVitals from './reportWebVitals'
-import FieldNotesApp from './FieldNotesApp'
+import React from "react"
+import ReactDOM from "react-dom"
+import reportWebVitals from "./reportWebVitals"
+import FieldNotesApp from "./FieldNotesApp"
+import AppRouter from "./routers/AppRouter"
 
 ReactDOM.render(
   <React.StrictMode>
-    <FieldNotesApp />
+    <AppRouter />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 )
 
 // If you want to start measuring performance in your app, pass a function

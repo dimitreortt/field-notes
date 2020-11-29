@@ -1,11 +1,15 @@
-import React from "react"
+import React, { useState } from "react"
 import db from "../firebase/firebase"
 import NoteForm from "./NoteForm"
 
 export const Note = ({
   data: { description, author, date, noteId },
-  setState,
+  setNotes,
+  notes,
+  index,
 }) => {
+  const [inEditMode, setInEditMode] = useState(false)
+
   const removeNote = () => {
     console.log(noteId, "oi, td bem?")
     db.collection("notes")
@@ -13,17 +17,18 @@ export const Note = ({
       .delete()
       .then(() => {
         console.log("note was successfully deleted")
-        setState((prevState) => {
-          // let newNotes = prevState.notes.filter(
-          //   (note) => note.noteId !== noteId
-          // )
-          // console.log(newNotes)
-          return {
-            notes: prevState.notes.filter((note) => note.noteId !== noteId),
-          }
-        })
+        setNotes(notes.filter((note) => note.noteId !== noteId))
+        // setState((prevState) => {
+        //   return {
+        //     notes: prevState.notes.filter((note) => note.noteId !== noteId),
+        //   }
+        // })
       })
       .catch((error) => console.log(error))
+  }
+
+  const toggleInEditMode = () => {
+    setInEditMode(!inEditMode)
   }
 
   return (
@@ -48,7 +53,10 @@ export const Note = ({
               </div>
             </div>
             <div className="col px-1">
-              <button className="btn btn-outline-success btn-block h-100">
+              <button
+                className="btn btn-outline-success btn-block h-100"
+                onClick={toggleInEditMode}
+              >
                 Edit
               </button>
             </div>
@@ -63,7 +71,22 @@ export const Note = ({
           </div>
         </div>
       </div>
-      <NoteForm setState={setState} formData={{ description, author, date }} />
+      {inEditMode && (
+        <div className="container m-1 mt-2">
+          <NoteForm
+            setNotes={setNotes}
+            formData={{
+              description,
+              author,
+              date,
+              noteId,
+              index,
+              setNotes,
+              setInEditMode,
+            }}
+          />
+        </div>
+      )}
     </div>
   )
 }
