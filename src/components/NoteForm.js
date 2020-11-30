@@ -2,15 +2,17 @@ import React, { useState, useEffect } from "react"
 import "react-datepicker/dist/react-datepicker.css"
 import DatePicker from "react-datepicker"
 import db from "../firebase/firebase"
+import { useDispatch } from "react-redux"
 
 export const NoteForm = (props) => {
   const [dateInput, setDateInput] = useState(new Date())
   const [nameInput, setNameInput] = useState("")
   const [descriptionInput, setDescriptionInput] = useState("")
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    if (!!props.formData) {
-      const { date, author, description } = props.formData
+    if (!!props.note) {
+      const { date, author, description } = props.note
       setDateInput(date)
       setNameInput(author)
       setDescriptionInput(description)
@@ -31,9 +33,10 @@ export const NoteForm = (props) => {
       .then((docRef) => {
         console.log("Document successfully created")
         note.noteId = docRef.id
-        props.setNotes([note].concat(props.notes))
         setNameInput("")
         setDescriptionInput("")
+
+        dispatch({ type: "ADD_NOTE", note })
       })
       .catch((error) => {
         console.log(error)
@@ -42,18 +45,14 @@ export const NoteForm = (props) => {
 
   const updateNote = (newNote) => {
     db.collection("notes")
-      .doc(props.formData.noteId)
+      .doc(props.note.noteId)
       .update(newNote)
       .then(() => {
         console.log("Document successfully updated", newNote)
-
-        props.setNotes(
-          props.notes.map((note) =>
-            note.noteId === props.formData.noteId
-              ? { ...newNote, noteId: props.formData.noteId }
-              : note
-          )
-        )
+        dispatch({
+          type: "EDIT_NOTE",
+          note: { ...newNote, noteId: props.note.noteId },
+        })
 
         setNameInput("")
         setDescriptionInput("")
@@ -66,12 +65,18 @@ export const NoteForm = (props) => {
 
   const onFormSubmit = (e) => {
     e.preventDefault()
+
+    if (!nameInput || !descriptionInput) {
+      alert("Please fill all fields!")
+      return
+    }
+
     const note = {
       author: nameInput,
       description: descriptionInput,
       date: dateInput,
     }
-    !!props.formData ? updateNote(note) : addNote(note)
+    !!props.note ? updateNote(note) : addNote(note)
   }
 
   return (
@@ -79,8 +84,6 @@ export const NoteForm = (props) => {
       {`${nameInput}, ${descriptionInput}, ${dateInput}`}
       <form className="" onSubmit={onFormSubmit}>
         <div className="row">
-          {/* <div className="showborder col-sm-12 col-md-8">oi</div>
-          <div className="showborder col-sm-12 col-md-4">oi</div> */}
           <div className="col-sm-12 col-md-8">
             <div className="form-group">
               <label htmlFor="nameInput" className="ml-1">

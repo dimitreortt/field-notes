@@ -7,10 +7,14 @@ import Note from "./components/Note"
 import db from "./firebase/firebase"
 import firebase from "firebase"
 import { useHistory } from "react-router-dom"
+import { useSelector, useDispatch } from "react-redux"
 
 export const FieldNotesApp = () => {
-  const [notes, setNotes] = useState([])
   const history = useHistory()
+  const storeNotes = useSelector((notes) =>
+    notes ? notes.sort((a, b) => b.date - a.date) : notes
+  )
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const downloadNotes = () => {
@@ -26,7 +30,7 @@ export const FieldNotesApp = () => {
             notes.push(data)
           })
 
-          setNotes(notes)
+          dispatch({ type: "SET_NOTES", notes })
         })
         .then(() => {
           console.log("Notes have been successfully downloaded!")
@@ -38,15 +42,8 @@ export const FieldNotesApp = () => {
   }, [])
 
   useEffect(() => {
-    let sortedNotes = notes.slice().sort((a, b) => b.date - a.date)
-    let diff = sortedNotes.filter(
-      (note, idx) => notes[idx].noteId != note.noteId
-    )
-
-    if (diff.length != 0) {
-      setNotes(sortedNotes)
-    }
-  }, [notes])
+    // console.log(storeNotes, "noteList")
+  }, [storeNotes])
 
   const signOut = () => {
     firebase
@@ -62,10 +59,6 @@ export const FieldNotesApp = () => {
       })
   }
 
-  useEffect(() => {
-    console.log(notes, "no main")
-  })
-
   return (
     <div>
       <Header />
@@ -74,17 +67,12 @@ export const FieldNotesApp = () => {
         <div className="add-button d-flex m-1">
           <button className="btn btn-success p-3 flex-fill">ADD</button>
         </div>
-        <NoteForm setNotes={setNotes} notes={notes} />
+        <NoteForm />
         <div className="notes-list">
-          {notes.map((noteData, index) => (
-            <Note
-              key={index}
-              data={noteData}
-              setNotes={setNotes}
-              notes={notes}
-              index={index}
-            />
-          ))}
+          {!!storeNotes &&
+            storeNotes.map((noteData, index) => (
+              <Note key={index} data={noteData} />
+            ))}
         </div>
         <div className="text-center mt-5 mb-2">
           <button

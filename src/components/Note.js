@@ -1,14 +1,11 @@
 import React, { useState } from "react"
 import db from "../firebase/firebase"
 import NoteForm from "./NoteForm"
+import { useDispatch } from "react-redux"
 
-export const Note = ({
-  data: { description, author, date, noteId },
-  setNotes,
-  notes,
-  index,
-}) => {
+export const Note = ({ data: { description, author, date, noteId } }) => {
   const [inEditMode, setInEditMode] = useState(false)
+  const dispatch = useDispatch()
 
   const removeNote = () => {
     db.collection("notes")
@@ -16,7 +13,7 @@ export const Note = ({
       .delete()
       .then(() => {
         console.log("Note was successfully deleted")
-        setNotes(notes.filter((note) => note.noteId !== noteId))
+        dispatch({ type: "REMOVE_NOTE", noteId })
       })
       .catch((error) => console.log(error))
   }
@@ -68,11 +65,8 @@ export const Note = ({
       {inEditMode && (
         <div className="container m-1 mt-2">
           <NoteForm
-            setNotes={setNotes}
-            notes={notes}
-            index={index}
             setInEditMode={setInEditMode}
-            formData={{
+            note={{
               description,
               author,
               date,
