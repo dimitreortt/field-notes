@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import firebase from "firebase"
+import { auth } from "../firebase/firebase"
 
 export const useIsLoggedIn = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(undefined)
@@ -8,7 +8,8 @@ export const useIsLoggedIn = () => {
   useEffect(() => {
     let mounted = true
     const verifyAuthState = () => {
-      firebase.auth().onAuthStateChanged(function (user) {
+      // firebase.auth().onAuthStateChanged(function (user) {
+      auth.onAuthStateChanged(function (user) {
         let isLogged
         if (user) {
           console.log("User is signed in")

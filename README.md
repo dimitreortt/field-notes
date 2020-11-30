@@ -20,7 +20,7 @@ The form contains the items described. The list is ordered by date.
 - [x] To save the notes, Firebase Cloud Firestore is used.
       Each note is represented by a document in a notes collection.
 - [ ] Material UI was not used in this project :(, because unfortunately I have no background on it yet, but I am sure I will be around there soon!
-- [ ] Redux was not used yet. It is to be added later.
+- [x] Redux was used to store and manage the data inside the app. To do that, Redux Store and Redux Hooks were used: createStore(), useSelector(), useDispatch().
 - [x] This app is hosted using firebase host: https://field-notes-bd18f.web.app/ .
 
 ## Development

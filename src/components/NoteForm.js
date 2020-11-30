@@ -48,7 +48,7 @@ export const NoteForm = (props) => {
       .doc(props.note.noteId)
       .update(newNote)
       .then(() => {
-        console.log("Document successfully updated", newNote)
+        console.log("Document successfully updated")
         dispatch({
           type: "EDIT_NOTE",
           note: { ...newNote, noteId: props.note.noteId },

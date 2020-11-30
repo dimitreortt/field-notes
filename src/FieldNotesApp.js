@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import "bootstrap/dist/css/bootstrap.css"
 import "./styles/styles.scss"
 import Header from "./components/Header"
 import NoteForm from "./components/NoteForm"
 import Note from "./components/Note"
-import db from "./firebase/firebase"
-import firebase from "firebase"
+import db, { auth } from "./firebase/firebase"
 import { useHistory } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 
@@ -46,8 +45,7 @@ export const FieldNotesApp = () => {
   }, [storeNotes])
 
   const signOut = () => {
-    firebase
-      .auth()
+    auth
       .signOut()
       .then(() => {
         console.log("Sign-out successful.")
