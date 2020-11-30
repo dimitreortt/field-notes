@@ -37,6 +37,17 @@ export const FieldNotesApp = () => {
     downloadNotes()
   }, [])
 
+  useEffect(() => {
+    let sortedNotes = notes.slice().sort((a, b) => b.date - a.date)
+    let diff = sortedNotes.filter(
+      (note, idx) => notes[idx].noteId != note.noteId
+    )
+
+    if (diff.length != 0) {
+      setNotes(sortedNotes)
+    }
+  }, [notes])
+
   const signOut = () => {
     firebase
       .auth()
