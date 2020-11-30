@@ -1,70 +1,38 @@
-# Getting Started with Create React App
+# NONG Code Challenge (Solution)
+Thanks to all NONG team for proposing this challenge. I am very happy to participate on this and I hope my skills can be of your interest!
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## About the Solution
+This solution represents a web app built with React.js and Bootstrap that registers field notes taken on a crop scouting. 
+This solution contains the items required in the challenge: 
+- A form that is used to register a new note
+- A list that shows the notes saved.
+- A log out button
 
-## Available Scripts
+The form contains the items described. The list is not ordered by date yet, it must to be added later.
 
-In the project directory, you can run:
 
-### `yarn start`
+## Requirements Attended
+- [x] Create-React-App was used to set up the web app.
+- [x] For user authentication, Firebase Auth is used. Email and password authentication is used and a sign page was created.
+- [x] To save the notes Firebase Cloud  Firestore is used.
+Each note is represented by a document in a notes collection.
+- [ ] Material UI was not used in this project because unfortunately I have no background on it yet, but I am sure I will be around there soon!
+- [ ] Redux was not used yet. It is to be added later.
+- [x] This app is hosted using firebase host: https://field-notes-bd18f.web.app/ .
 
-Runs the app in the development mode.\
+## Development
+In the project directory, the command
+### `npm start`
+was used to start the app and render the project locally.
+It runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Deploy
+The deploy was done using Firebase Host, first 
+### `npm build`
+was run to build the app for production, then
+### `npm install -g firebase-tools` 
+### `firebase login`
+### `firebase init`
+### `firebase deploy`
+were run to setup the project for firebase host and then deploy to it.
