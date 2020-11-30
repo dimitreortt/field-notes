@@ -9,10 +9,7 @@ export const NoteForm = (props) => {
   const [descriptionInput, setDescriptionInput] = useState("")
 
   useEffect(() => {
-    console.log("ola ;P")
-    console.log(props.formData)
     if (!!props.formData) {
-      console.log("ola mundo")
       const { date, author, description } = props.formData
       setDateInput(date)
       setNameInput(author)
@@ -32,39 +29,38 @@ export const NoteForm = (props) => {
     db.collection("notes")
       .add(note)
       .then((docRef) => {
-        console.log("document successfully created", note)
+        console.log("Document successfully created")
         note.noteId = docRef.id
-        // props.setState((prevState) => ({
-        //   notes: [note].concat(prevState.notes),
-        // }))
-        props.setNotes([note].concat(props.notes.concat))
+        props.setNotes([note].concat(props.notes))
         setNameInput("")
         setDescriptionInput("")
       })
-      .catch((e) => {
-        console.log(e)
+      .catch((error) => {
+        console.log(error)
       })
   }
 
-  const updateNote = (note) => {
+  const updateNote = (newNote) => {
     db.collection("notes")
       .doc(props.formData.noteId)
-      .update(note)
+      .update(newNote)
       .then(() => {
-        console.log("document successfully updated", note)
-        props.formData.setState((prevState) => {
-          let newNotes = prevState.notes
-          newNotes[props.formData.index] = note
-          return {
-            notes: newNotes,
-          }
-        })
+        console.log("Document successfully updated", newNote)
+
+        props.setNotes(
+          props.notes.map((note) =>
+            note.noteId === props.formData.noteId
+              ? { ...newNote, noteId: props.formData.noteId }
+              : note
+          )
+        )
+
         setNameInput("")
         setDescriptionInput("")
-        props.formData.setInEditMode(false)
+        props.setInEditMode(false)
       })
-      .catch((e) => {
-        console.log(e)
+      .catch((error) => {
+        console.log(error)
       })
   }
 
@@ -75,7 +71,7 @@ export const NoteForm = (props) => {
       description: descriptionInput,
       date: dateInput,
     }
-    !!props.formData ? updateNote(note, props.formData.noteId) : addNote(note)
+    !!props.formData ? updateNote(note) : addNote(note)
   }
 
   return (

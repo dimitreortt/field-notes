@@ -4,10 +4,6 @@ import { Redirect, Route } from "react-router-dom"
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
   const [isLoggedIn, setIsLoggedIn, loading] = useIsLoggedIn()
-  // const isLoggedIn = true
-  // const loading = false
-
-  console.log("to na private")
 
   return (
     <Route
@@ -24,16 +20,6 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
         )
       }
     />
-    // <div>
-    //   {loading == true ? (
-    //     "Loading..."
-    //   ) : isLoggedIn == true ? (
-    //     // <Redirect to={"/"} />
-    //     <Component {...rest} />
-    //   ) : (
-    //     <Redirect path="/login" />
-    //   )}
-    // </div>
   )
 }
 

@@ -23,37 +23,37 @@ export const FieldNotesApp = () => {
             let data = noteSnap.data()
             data.date = data.date.toDate()
             data.noteId = noteSnap.id
-            console.log(data.noteId)
             notes.push(data)
           })
 
           setNotes(notes)
         })
         .then(() => {
-          console.log("missão cumprida pai")
+          console.log("Notes have been successfully downloaded!")
         })
         .catch((e) => console.log(e))
     }
 
     downloadNotes()
-    console.log("in will mount")
   }, [])
 
   const signOut = () => {
     firebase
       .auth()
       .signOut()
-      .then(function () {
-        // Sign-out successful.
+      .then(() => {
         console.log("Sign-out successful.")
         alert("User has been successfully signed out!")
         history.push("/login")
       })
       .catch((error) => {
-        // An error happened.
         console.log(error)
       })
   }
+
+  useEffect(() => {
+    console.log(notes, "no main")
+  })
 
   return (
     <div>

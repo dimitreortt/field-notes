@@ -11,18 +11,12 @@ export const Note = ({
   const [inEditMode, setInEditMode] = useState(false)
 
   const removeNote = () => {
-    console.log(noteId, "oi, td bem?")
     db.collection("notes")
       .doc(noteId)
       .delete()
       .then(() => {
-        console.log("note was successfully deleted")
+        console.log("Note was successfully deleted")
         setNotes(notes.filter((note) => note.noteId !== noteId))
-        // setState((prevState) => {
-        //   return {
-        //     notes: prevState.notes.filter((note) => note.noteId !== noteId),
-        //   }
-        // })
       })
       .catch((error) => console.log(error))
   }
@@ -75,14 +69,14 @@ export const Note = ({
         <div className="container m-1 mt-2">
           <NoteForm
             setNotes={setNotes}
+            notes={notes}
+            index={index}
+            setInEditMode={setInEditMode}
             formData={{
               description,
               author,
               date,
               noteId,
-              index,
-              setNotes,
-              setInEditMode,
             }}
           />
         </div>

@@ -2,7 +2,6 @@ import React, { useEffect } from "react"
 import Header from "./Header"
 import firebase from "firebase"
 import useIsLoggedIn from "../customHooks/useIsLoggedIn"
-import { Redirect } from "react-router-dom"
 
 export const LoginPage = (props) => {
   const [isLoggedIn, setIsLoggedIn, loading] = useIsLoggedIn()
@@ -11,12 +10,11 @@ export const LoginPage = (props) => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((anything) => {
-        console.log("anything", anything)
+      .then(() => {
         setIsLoggedIn(true)
         alert("The user has been successfully signed in!")
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(`Error: ${error.message}`)
         alert(error.message)
       })
@@ -25,10 +23,8 @@ export const LoginPage = (props) => {
   const onFormSubmit = (e) => {
     e.preventDefault()
 
-    console.log("oiee")
     const email = e.target[0].value
     const password = e.target[1].value
-    console.log(email, password)
     signIn(email, password)
   }
 
@@ -43,7 +39,7 @@ export const LoginPage = (props) => {
         </div>
         <p>Start to get your notes under control!</p>
         <form onSubmit={onFormSubmit}>
-          <div className="form-...">
+          <div>
             <div className="form-group text-left mb-2">
               <label htmlFor="mailInput">E-mail</label>
               <input

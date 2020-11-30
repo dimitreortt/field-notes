@@ -7,22 +7,16 @@ export const useIsLoggedIn = () => {
 
   useEffect(() => {
     let mounted = true
-
     const verifyAuthState = () => {
-      console.log(isLoggedIn, "in use logged in")
       firebase.auth().onAuthStateChanged(function (user) {
         let isLogged
         if (user) {
-          // User is signed in.
-          console.log("// User is signed in., in usili")
+          console.log("User is signed in")
           isLogged = true
         } else {
-          // No user is signed in.
-          console.log("// No user is signed in.")
+          console.log("No user is signed in")
           isLogged = false
         }
-
-        // setIsLoggedIn(false)
         if (mounted) {
           setIsLoggedIn(isLogged)
           setLoading(false)
