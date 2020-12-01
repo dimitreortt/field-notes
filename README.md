@@ -1,6 +1,6 @@
 # NONG Code Challenge (Solution)
 
-Thanks to all NONG team for proposing this challenge. I am very happy to participate on this and I hope my skills can be of your interest!
+First of all, thanks to all NONG team for proposing this challenge. I am very happy to participate on this and I hope my skills can be of your interest!
 
 ## About the Solution
 

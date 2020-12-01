@@ -1,6 +1,6 @@
 import React from "react"
 import { BrowserRouter as Router, Switch } from "react-router-dom"
-import FieldNotesApp from "../FieldNotesApp"
+import FieldNotesApp from "../components/FieldNotesApp"
 import LoginPage from "../components/LoginPage"
 import PublicRoute from "./PublicRoute"
 import PrivateRoute from "./PrivateRoute"

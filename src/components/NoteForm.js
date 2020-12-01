@@ -37,6 +37,7 @@ export const NoteForm = (props) => {
         setDescriptionInput("")
 
         dispatch({ type: "ADD_NOTE", note })
+        props.toggleShowForm()
       })
       .catch((error) => {
         console.log(error)
@@ -80,8 +81,7 @@ export const NoteForm = (props) => {
   }
 
   return (
-    <div className="note-form border border-secondary rounded">
-      {`${nameInput}, ${descriptionInput}, ${dateInput}`}
+    <div className="note-form border border-success rounded">
       <form className="" onSubmit={onFormSubmit}>
         <div className="row">
           <div className="col-sm-12 col-md-8">

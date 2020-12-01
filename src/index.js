@@ -1,7 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import reportWebVitals from "./reportWebVitals"
-import FieldNotesApp from "./FieldNotesApp"
 import AppRouter from "./routers/AppRouter"
 import { Provider } from "react-redux"
 import { createStore } from "redux"

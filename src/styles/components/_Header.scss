@@ -28,6 +28,10 @@
     serif;
   font-size: 10rem;
   letter-spacing: 3px;
+
+  @media (max-width: 576px) {
+    font-size: 5rem;
+  }
 }
 
 .header__tagline {
