@@ -1,11 +1,9 @@
 import React from "react"
 import Header from "./Header"
 import firebase from "firebase"
-// import useIsLoggedIn from "../customHooks/useIsLoggedIn"
 import { useDispatch } from "react-redux"
 
 export const LoginPage = (props) => {
-  // const [isLoggedIn, setIsLoggedIn, loading] = useIsLoggedIn()
   const dispatch = useDispatch()
 
   const signIn = (email, password) => {
@@ -13,7 +11,6 @@ export const LoginPage = (props) => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => {
-        // setIsLoggedIn(true)
         dispatch({ type: "LOGOUT" })
         alert("The user has been successfully signed in!")
       })

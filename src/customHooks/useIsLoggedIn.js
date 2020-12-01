@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
-import { auth } from "../firebase/firebase"
+// import { auth } from "../firebase/firebase"
+import firebase from "firebase"
 import { useDispatch } from "react-redux"
 
 export const useIsLoggedIn = () => {
@@ -9,7 +10,8 @@ export const useIsLoggedIn = () => {
   useEffect(() => {
     let mounted = true
     const verifyAuthState = () => {
-      auth.onAuthStateChanged((user) => {
+      // auth.onAuthStateChanged((user) => {
+      firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           console.log("User is signed in")
           dispatch({ type: "LOGIN", userId: user.uid })

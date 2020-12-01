@@ -12,7 +12,7 @@ import AddNoteButton from "./AddNoteButton"
 
 export const FieldNotesApp = () => {
   const dispatch = useDispatch()
-  const listSize = useSelector((notes) => (notes ? notes.length : 0))
+  const listSize = useSelector(({ notes }) => (notes ? notes.length : 0))
   const [showForm, setShowForm] = useState(false)
   const userId = useSelector(({ auth }) => auth)
 

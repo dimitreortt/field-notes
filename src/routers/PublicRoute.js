@@ -10,7 +10,7 @@ export const PublicRoute = ({ component: Component, ...rest }) => {
 
   return (
     <div>
-      {loading == true ? (
+      {loading === true ? (
         "Loading..."
       ) : userId ? (
         <Redirect to="/" />
