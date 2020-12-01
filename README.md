@@ -55,24 +55,14 @@ were run to setup the project for firebase host and then deploy to it.
 
 To test this solution, please go to [https://field-notes-bd18f.web.app/](https://field-notes-bd18f.web.app/) , and submit a login with e-mail and password, for that, two users were created using firebase dashboard:
 
-#### E-mail
-
-john.doe@mail.com
-
-#### Password
-
-impossible
-
+#### E-mail:
+##### john.doe@mail.com
+#### Password:
+##### impossible
 and
-
-#### E-mail
-
-smartuser@goodmail.uk
-
-#### Password
-
-strong
-
-.
+#### E-mail:
+##### smartuser@goodmail.uk
+#### Password:
+##### strong.
 
 Feel free to login using any of these. Access to this firestore database will be active for one month, until 12/31/2020.
