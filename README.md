@@ -59,6 +59,6 @@ To test this solution, please go to [https://field-notes-bd18f.web.app/](https:/
 #### Password: impossible
 and
 #### E-mail: smartuser@goodmail.uk
-#### Password: strong.
+#### Password: strong
 
 Feel free to login using any of these. Access to this firestore database will be active for one month, until 12/31/2020.
