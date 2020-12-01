@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react"
 import "react-datepicker/dist/react-datepicker.css"
 import DatePicker from "react-datepicker"
 import db from "../firebase/firebase"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 export const NoteForm = (props) => {
   const [dateInput, setDateInput] = useState(new Date())
   const [nameInput, setNameInput] = useState("")
   const [descriptionInput, setDescriptionInput] = useState("")
   const dispatch = useDispatch()
+  const userId = useSelector(({ auth }) => auth)
 
   useEffect(() => {
     if (!!props.note) {
@@ -28,7 +29,9 @@ export const NoteForm = (props) => {
   }
 
   const addNote = (note) => {
-    db.collection("notes")
+    db.collection(`users`)
+      .doc(userId)
+      .collection("notes")
       .add(note)
       .then((docRef) => {
         console.log("Document successfully created")
@@ -45,7 +48,9 @@ export const NoteForm = (props) => {
   }
 
   const updateNote = (newNote) => {
-    db.collection("notes")
+    db.collection("users")
+      .doc(userId)
+      .collection("notes")
       .doc(props.note.noteId)
       .update(newNote)
       .then(() => {

@@ -2,13 +2,17 @@ import React, { useState } from "react"
 import db from "../firebase/firebase"
 import NoteForm from "./NoteForm"
 import { useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 
 export const Note = ({ data: { description, author, date, noteId } }) => {
   const [inEditMode, setInEditMode] = useState(false)
   const dispatch = useDispatch()
+  const userId = useSelector(({ auth }) => auth)
 
   const removeNote = () => {
-    db.collection("notes")
+    db.collection(`users`)
+      .doc(userId)
+      .collection("notes")
       .doc(noteId)
       .delete()
       .then(() => {

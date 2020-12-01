@@ -1,9 +1,12 @@
 import React from "react"
 import useIsLoggedIn from "../customHooks/useIsLoggedIn"
 import { Redirect, Route } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 export const PrivateRoute = ({ component: Component, ...rest }) => {
-  const [isLoggedIn, setIsLoggedIn, loading] = useIsLoggedIn()
+  // const [isLoggedIn, setIsLoggedIn, loading] = useIsLoggedIn()
+  const [loading] = useIsLoggedIn()
+  const userId = useSelector(({ auth }) => auth)
 
   return (
     <Route
@@ -11,7 +14,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
       component={(props) =>
         loading ? (
           "Loading..."
-        ) : isLoggedIn ? (
+        ) : userId ? (
           <div>
             <Component {...props} />
           </div>

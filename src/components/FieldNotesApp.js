@@ -14,10 +14,13 @@ export const FieldNotesApp = () => {
   const dispatch = useDispatch()
   const listSize = useSelector((notes) => (notes ? notes.length : 0))
   const [showForm, setShowForm] = useState(false)
+  const userId = useSelector(({ auth }) => auth)
 
   useEffect(() => {
     const downloadNotes = () => {
-      db.collection("notes")
+      db.collection(`users`)
+        .doc(userId)
+        .collection("notes")
         .get()
         .then((snapshot) => {
           let notes = []

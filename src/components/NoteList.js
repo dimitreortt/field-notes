@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import Note from "./Note"
 
 export const NoteList = (props) => {
-  const storeNotes = useSelector((notes) =>
+  const storeNotes = useSelector(({ notes }) =>
     notes ? notes.sort((a, b) => b.date - a.date) : notes
   )
 

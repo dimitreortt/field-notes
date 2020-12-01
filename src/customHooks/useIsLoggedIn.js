@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from "react"
 import { auth } from "../firebase/firebase"
+import { useDispatch } from "react-redux"
 
 export const useIsLoggedIn = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(undefined)
   const [loading, setLoading] = useState(true)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     let mounted = true
     const verifyAuthState = () => {
-      // firebase.auth().onAuthStateChanged(function (user) {
-      auth.onAuthStateChanged(function (user) {
-        let isLogged
+      auth.onAuthStateChanged((user) => {
         if (user) {
           console.log("User is signed in")
-          isLogged = true
+          dispatch({ type: "LOGIN", userId: user.uid })
         } else {
           console.log("No user is signed in")
-          isLogged = false
+          dispatch({ type: "LOGOUT" })
         }
         if (mounted) {
-          setIsLoggedIn(isLogged)
           setLoading(false)
         }
       })
@@ -30,7 +28,7 @@ export const useIsLoggedIn = () => {
     return () => (mounted = false)
   }, [])
 
-  return [isLoggedIn, setIsLoggedIn, loading]
+  return [loading]
 }
 
 export default useIsLoggedIn

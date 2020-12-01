@@ -4,9 +4,10 @@ import reportWebVitals from "./reportWebVitals"
 import AppRouter from "./routers/AppRouter"
 import { Provider } from "react-redux"
 import { createStore } from "redux"
-import notesReducer from "./reducers/notes"
+import { rootReducer } from "./reducers"
+// import notesReducer from "./reducers/notes"
 
-const store = createStore(notesReducer)
+const store = createStore(rootReducer)
 
 ReactDOM.render(
   <React.StrictMode>
