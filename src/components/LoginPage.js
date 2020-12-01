@@ -1,14 +1,13 @@
 import React from "react"
 import Header from "./Header"
-import firebase from "firebase"
 import { useDispatch } from "react-redux"
+import { auth } from "../firebase/firebase"
 
 export const LoginPage = (props) => {
   const dispatch = useDispatch()
 
   const signIn = (email, password) => {
-    firebase
-      .auth()
+    auth
       .signInWithEmailAndPassword(email, password)
       .then(() => {
         dispatch({ type: "LOGOUT" })

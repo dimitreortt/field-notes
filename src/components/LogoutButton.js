@@ -1,14 +1,12 @@
 import React from "react"
 import { auth } from "../firebase/firebase"
 import { useDispatch } from "react-redux"
-import firebase from "firebase"
 
 export const LogoutButton = (props) => {
   const dispatch = useDispatch()
 
   const signOut = () => {
-    firebase
-      .auth()
+    auth
       .signOut()
       .then(() => {
         console.log("Sign-out successful.")

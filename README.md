@@ -21,7 +21,7 @@ The form contains the items described. The list is ordered by date.
       Each note is represented by a document in a notes collection.
 - [ ] Material UI was not used in this project :(, because unfortunately I have no background on it yet, but I am sure I will be around there soon!
 - [x] Redux was used to store and manage the data inside the app. To do that, Redux Store and Redux Hooks were used: createStore(), useSelector(), useDispatch().
-- [x] This app is hosted using firebase host: https://field-notes-bd18f.web.app/ .
+- [x] This app is hosted using firebase host: [https://field-notes-bd18f.web.app/](https://field-notes-bd18f.web.app/) .
 
 ## Development
 
@@ -37,7 +37,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The deploy was done using Firebase Host, first
 
-#### `npm build`
+#### `npm run build`
 
 was run to build the app for production, then
 
@@ -50,3 +50,29 @@ was run to build the app for production, then
 #### `firebase deploy`
 
 were run to setup the project for firebase host and then deploy to it.
+
+## Usage
+
+To test this solution, please go to [https://field-notes-bd18f.web.app/](https://field-notes-bd18f.web.app/) , and submit a login with e-mail and password, for that, two users were created using firebase dashboard:
+
+#### E-mail
+
+john.doe@mail.com
+
+#### Password
+
+impossible
+
+and
+
+#### E-mail
+
+smartuser@goodmail.uk
+
+#### Password
+
+strong
+
+.
+
+Feel free to login using any of these. Access to this firestore database will be active for one month, until 12/31/2020.
